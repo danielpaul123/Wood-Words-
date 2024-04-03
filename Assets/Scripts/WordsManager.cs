@@ -8,6 +8,7 @@ public class WordsManager : MonoBehaviour
     public static WordsManager instance;
     public TextMeshPro wordPanelText;
     public List<string> validWords;
+    public int test;
     private void Awake()
     {
         instance = this;
