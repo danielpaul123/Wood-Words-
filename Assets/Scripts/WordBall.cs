@@ -9,6 +9,8 @@ public class WordBall : MonoBehaviour
     private TextMeshPro text;
     public static WordBall selectedWordBall;
     public Animator animator;
+    public int corcount;
+    public int worcount;
     void Start()
     {
         text = transform.GetChild(0).GetComponent<TextMeshPro>();
@@ -32,12 +34,16 @@ public class WordBall : MonoBehaviour
                 WordsManager.instance.ShowWordInPanel(combinedText);
                 if (WordsManager.instance.CheckIfValidWord(combinedText))
                 {
-                    Debug.Log(combinedText + " is a valid word.");
+                    Debug.Log(combinedText + " is a valid word.");              
                     StartCoroutine(ClearPanel());
+                    corcount++;
+                    Debug.Log("Got Words Correct- " + corcount);
                 }
                 else
                 {
-                    Debug.Log(combinedText + " is NOT a valid word.");
+                    Debug.Log(combinedText + " is NOT a valid word.");                  
+                    worcount++;
+                    Debug.Log("Got Words Wrong- "+worcount);
                 }
                 selectedWordBall = null;
             }       
