@@ -8,13 +8,17 @@ public class WordBall : MonoBehaviour
     public string part;
     private TextMeshPro text;
     public static WordBall selectedWordBall;
+    public Animator animator;
     void Start()
     {
         text = transform.GetChild(0).GetComponent<TextMeshPro>();
         text.text = part;
+        animator = GetComponent<Animator>();
     }
     private void OnMouseDown()
     {
+        animator.SetTrigger("BBall");
+
         if (selectedWordBall == null)
         {
             selectedWordBall = this;
@@ -35,8 +39,8 @@ public class WordBall : MonoBehaviour
                 {
                     Debug.Log(combinedText + " is NOT a valid word.");
                 }
-                selectedWordBall = null;           
-            }
+                selectedWordBall = null;
+            }       
         }
     }
     IEnumerator ClearPanel()
