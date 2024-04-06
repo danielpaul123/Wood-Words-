@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
-
 public class WordBall : MonoBehaviour
 {
     public string part;
@@ -44,6 +44,8 @@ public class WordBall : MonoBehaviour
                     Destroy(gameObject);
                     Destroy(selectedWordBall.gameObject);
                     ShowCorrectWords();
+                   // Debug.Log(ShowCorrectWords());
+                    //WordsManager.instance.DisplayCorrectWords();
                 }
                 else
                 {
@@ -55,7 +57,7 @@ public class WordBall : MonoBehaviour
             }
         }
     }
-
+   
     IEnumerator ClearPanel()
     {
         yield return new WaitForSeconds(0.4f);
@@ -66,15 +68,17 @@ public class WordBall : MonoBehaviour
     {
         return selectedWordBall;
     }
-    public static void ShowCorrectWords()
+    public void  ShowCorrectWords()
     {
+        string wordString = "";
         foreach (string word in corWords)
         {
-            foreach (char c in word)
-            {
-                Debug.Log("Character: " + c);
-            }
+            wordString += word;
+            Debug.Log("WordBall Correct Word--- " + wordString);
+            
         }
+        WordsManager.instance.DisplayCorrectWords(wordString);
+        wordString = "";
+    
     }
 }
-
