@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
 public class WordBall : MonoBehaviour
 {
     public string part;
@@ -12,6 +13,7 @@ public class WordBall : MonoBehaviour
     public static int corcount;
     public static int worcount;
     public static List<string> corWords = new List<string>();
+
     void Start()
     {
         text = transform.GetChild(0).GetComponent<TextMeshPro>();
@@ -43,9 +45,7 @@ public class WordBall : MonoBehaviour
                     corWords.Add(combinedText);
                     Destroy(gameObject);
                     Destroy(selectedWordBall.gameObject);
-                    ShowCorrectWords();
-                   // Debug.Log(ShowCorrectWords());
-                    //WordsManager.instance.DisplayCorrectWords();
+                    WordsManager.instance.SpawnLetterBalls(); 
                 }
                 else
                 {
@@ -57,7 +57,7 @@ public class WordBall : MonoBehaviour
             }
         }
     }
-   
+
     IEnumerator ClearPanel()
     {
         yield return new WaitForSeconds(0.4f);
@@ -67,18 +67,5 @@ public class WordBall : MonoBehaviour
     public static WordBall GetselectedWordBall()
     {
         return selectedWordBall;
-    }
-    public void  ShowCorrectWords()
-    {
-        string wordString = "";
-        foreach (string word in corWords)
-        {
-            wordString += word;
-            Debug.Log("WordBall Correct Word--- " + wordString);
-            
-        }
-        WordsManager.instance.DisplayCorrectWords(wordString);
-        wordString = "";
-    
     }
 }

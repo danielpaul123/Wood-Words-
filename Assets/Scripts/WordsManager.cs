@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,7 +10,8 @@ public class WordsManager : MonoBehaviour
     public TextMeshPro wordPanelText;
     public List<string> validWords;
     public GameObject winPanel;
-
+    public GameObject spawnLetterBalls;
+    public Vector3 letterBalldestinatio;
     private void Awake()
     {
         instance = this;
@@ -43,5 +45,9 @@ public class WordsManager : MonoBehaviour
         displaytext.text= correctWord;
         Debug.Log("from WordManager" + correctWord);
     }
-
+    public void SpawnLetterBalls()
+    {
+        GameObject spawnedLetterBall = Instantiate(spawnLetterBalls, Vector3.zero, Quaternion.identity);
+        spawnedLetterBall.transform.DOMove(new Vector3(-1.6257f, 3.77f, 0f), 1f).SetEase(Ease.OutQuad);
+    }
 }
