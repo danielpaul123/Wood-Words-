@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
-using DG.Tweening;
+//using System;
 public class WordBall : MonoBehaviour
 {
     public string part;
@@ -45,13 +45,18 @@ public class WordBall : MonoBehaviour
                     corWords.Add(combinedText);
                     Destroy(gameObject);
                     Destroy(selectedWordBall.gameObject);
-                    WordsManager.instance.SpawnLetterBalls(); 
+                    WordsManager.instance.DisplayCorrectWords(combinedText);
+                    WordsManager.instance.SpawnLetterBalls(combinedText);
                 }
                 else
                 {
                     Debug.Log(combinedText + " is NOT a valid word.");
                     worcount++;
                     Debug.Log("Got Words Wrong- " + worcount);
+                }
+                if(worcount >= 3)
+                {
+                    Debug.Log("Game Over");
                 }
                 selectedWordBall = null;
             }
@@ -62,6 +67,7 @@ public class WordBall : MonoBehaviour
     {
         yield return new WaitForSeconds(0.4f);
         WordsManager.instance.ShowWordInPanel("");
+        Debug.Log("Successfully Cleared");
     }
 
     public static WordBall GetselectedWordBall()

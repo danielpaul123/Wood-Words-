@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class WordsManager : MonoBehaviour
@@ -10,16 +11,18 @@ public class WordsManager : MonoBehaviour
     public TextMeshPro wordPanelText;
     public List<string> validWords;
     public GameObject winPanel;
-    public GameObject spawnLetterBalls;
-    public Vector3 letterBalldestinatio;
+    public GameObject letterBalls;
+    public List<Transform> letterBallDestination;
+    public GameObject losePanel;
+    public TextMeshPro hint;
+
     private void Awake()
     {
         instance = this;
     }
-
-    void Start()
+    private void Start()
     {
-
+        ShowHint("");
     }
     private void Update()
     {
@@ -27,6 +30,10 @@ public class WordsManager : MonoBehaviour
         {
             winPanel.SetActive(true);
         }
+        if (WordBall.worcount == 3) 
+        { 
+           losePanel.SetActive(true);
+        } 
     }
 
     public void ShowWordInPanel(string text)
@@ -38,16 +45,28 @@ public class WordsManager : MonoBehaviour
     {
         return validWords.Contains(word);
     }
-
-    public TextMeshPro displaytext;
     public void DisplayCorrectWords(string correctWord)
     {
-        displaytext.text= correctWord;
-        Debug.Log("from WordManager" + correctWord);
+        wordPanelText.text = correctWord;
+        Debug.Log("From WordManager- " + correctWord);
     }
-    public void SpawnLetterBalls()
+
+    public void SpawnLetterBalls(string correctWord)
     {
-        GameObject spawnedLetterBall = Instantiate(spawnLetterBalls, Vector3.zero, Quaternion.identity);
-        spawnedLetterBall.transform.DOMove(new Vector3(-1.6257f, 3.77f, 0f), 1f).SetEase(Ease.OutQuad);
+        for (int i = 0; i < correctWord.Length; i++)
+        {
+            char c = correctWord[i];
+            Transform destination = letterBallDestination[i];
+
+            GameObject spawnedLetterBall = Instantiate(letterBalls, Vector3.zero, Quaternion.identity);
+            spawnedLetterBall.GetComponentInChildren<TextMeshPro>().text = c.ToString();
+            spawnedLetterBall.transform.DOMove(destination.position, 1f).SetEase(Ease.OutQuad);
+        }
+    }
+
+    public void ShowHint(string hintMessage)
+    {
+        hint.text = hintMessage;
+        hint.transform.DOScale(Vector3.one * 1.2f, 1f).SetLoops(-1, LoopType.Yoyo);
     }
 }
